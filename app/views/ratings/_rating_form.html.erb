@@ -1,0 +1,35 @@
+<%=form_for @rating do |f|%>
+
+    <% if @rating.errors.any? %>
+        <div id="error_explanation">
+          <h2>There were some errors:</h2>
+          <ul>
+            <% @rating.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <%if item_model_char%>
+        <h3>Rating for <%=item_model_char.item_model.name%> for <%=item_model_char.characteristic.name%></h3>
+        <%=hidden_field_tag 'rating[item_model_characteristic_id]', item_model_char.id%>
+    <%end%>
+
+    <%=hidden_field_tag 'rating[user_id]', current_user.id%>
+
+
+    <%=f.label :rating, "Enter your Rating here!"%><br><br>
+
+    <%Array(1..5).each do |rating| %>
+        <%=f.radio_button :rating, rating%>
+        <%=f.label :rating, "#{rating}", value: rating%>    
+    <%end%>
+
+    <br><br>
+
+    <%=f.label :description%><br>
+    <%=f.text_area :description%><br><br>
+
+    <%=f.submit "Submit Rating", class: "btn btn-outline-dark"%>
+<%end%>

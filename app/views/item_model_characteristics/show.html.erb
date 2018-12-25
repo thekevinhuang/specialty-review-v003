@@ -1,0 +1,11 @@
+<h3>All ratings for the <%=@item_model_characteristic.characteristic.name%> of <%=@item_model_characteristic.item_model.name%></h3>
+
+<%@item_model_characteristic.ratings.each do |rating|%>
+    <%=rating.user.name%> - Rating: <%=link_to rating.rating, rating_path(rating)%><br>
+<%end%>
+
+<br>
+
+<%=link_to "Back to Item Model", item_model_path(@item_model_characteristic.item_model)%>
+<br>
+<%=link_to "Back to Characteristic", characteristic_path(@item_model_characteristic.characteristic)%>

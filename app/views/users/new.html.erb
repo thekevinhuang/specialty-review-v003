@@ -1,0 +1,26 @@
+<%=form_for @user do |f|%>
+    <% if @user.errors.any? %>
+        <div id="error_explanation">
+          <h2>There were some errors:</h2>
+          <ul>
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    
+    <%=f.label :name, "Username"%><br>
+    <%=f.text_field :name%><br><br>
+
+    <%=f.label :email, "E-mail Address:"%><br>
+    <%=f.text_field :email%><br><br>
+    
+    <%=f.label :password%><br>
+    <%=f.password_field :password%><br><br>
+
+    <%=f.submit "Sign Up!", class: "btn btn-outline-dark"%>
+
+    Or <%=link_to "Login with Google", google_login_path%><br>
+
+<%end%>

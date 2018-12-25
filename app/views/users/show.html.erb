@@ -1,0 +1,13 @@
+<h2><%=current_user.name%> Page</h2>
+
+<h3><%=link_to "Explore Activities", activities_path%></h3>
+
+<h3>Ratings:</h3>
+
+<ul>
+    <%current_user.ratings.each do |rating|%>
+        <li><%=link_to "#{rating.item_model.name}", item_model_path(rating.item_model)%>
+        - <%=link_to "#{rating.characteristic.name}", characteristic_path(rating.characteristic)%> - 
+        <%=link_to "#{rating.rating}", rating_path(rating)%></li>
+    <%end%>
+</ul>

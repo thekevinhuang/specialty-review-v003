@@ -1,0 +1,12 @@
+<div>
+    <h2>Current Existing Activities</h2>
+    <ul>
+        <%@activities.each do |activity|%>
+            <div>
+            <li><%=link_to activity.name, activity_path(activity)%></li>
+            </div>
+        <%end%>
+    </ul>
+
+    <h3><%=link_to "Create new Activity", new_activity_path%></h3>
+</div>

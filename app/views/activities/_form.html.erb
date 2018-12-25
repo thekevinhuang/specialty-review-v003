@@ -1,0 +1,31 @@
+<%=form_for(current_object) do |f|%>
+    <% if current_object.errors.any? %>
+        <div id="error_explanation">
+          <h2>There were some errors:</h2>
+          <ul>
+            <% current_object.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <%if parent_object%>
+        <%if parent_object.id%>
+            <h3><%=parent_object.class.name.underscore.humanize%>: <%=parent_object.name%></h3>
+            <%=hidden_field_tag "parent[parent_id]", parent_object.id%>
+        <%else%>
+            <h3>Select a <%=parent_object.class.name.underscore.humanize%>:</h3>
+            <%=collection_select(:parent, :parent_id, parent_object.class.all, :id, :name)%><br><br>
+            Or first create a <%=link_to "new #{parent_object.class.name.underscore.humanize}", url_for([:new, parent_object.class.name.underscore.downcase])%><br><br>
+        <%end%>
+    <%end%>
+
+    <%=f.label :name%><br>
+    <%=f.text_field :name%><br><br>
+
+    <%=f.label :description%><br>
+    <%=f.text_area :description%><br><br>
+
+    <%=f.submit "Create #{current_object.class.name.underscore.humanize}", class: "btn btn-outline-dark"%>
+<%end%>

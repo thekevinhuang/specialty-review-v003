@@ -1,0 +1,12 @@
+<h3><%=@rating.user.name%>'s review for the <%=@rating.item_model_characteristic.characteristic.name%> of 
+<%=@rating.item_model_characteristic.item_model.name%></h3>
+
+<h2>Current Rating: <%=@rating.rating%></h2>
+
+<p class="desc">Description: <%=@rating.description%></p><br>
+
+<%if@rating.user == current_user%>
+    <h4><%=link_to "Edit Review", edit_rating_path(@rating)%></h4>
+<%end%>
+
+<h4><%=link_to "Back to Item Model", item_model_path(@rating.item_model_characteristic.item_model)%></h4>

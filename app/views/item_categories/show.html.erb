@@ -1,0 +1,16 @@
+<h2><%=@item_category.name%></h2>
+
+<p class="desc"><%=@item_category.description%></p>
+
+<h3>Belongs to: <%=link_to @item_category.activity.name, activity_path(@item_category.activity)%></h3>
+
+<h3>Specific Models:</h3>
+
+<h4><%=link_to "Add a new Model", new_item_category_item_model_path(@item_category)%></h4>
+
+<ul>
+    <%ItemModel.sorted_by_overall_rating_desc(@item_category).each do |item_model|%>
+        <li><%=link_to "#{item_model.name} - Rating: #{item_model.overall_rating}", item_category_item_model_path(item_model)%></li>
+    <%end%>
+</ul>
+

@@ -1,0 +1,3 @@
+<h2>Add a new Model</h2>
+
+<%=render partial: 'activities/form', locals: {current_object: @item_model, parent_object: @item_category||=ItemCategory.new}%>

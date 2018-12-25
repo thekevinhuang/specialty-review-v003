@@ -1,0 +1,31 @@
+<h2><%=@item_model.name%> Details</h2>
+
+<p class="desc"><%=@item_model.description%></p>
+
+<h3>Product Item Category/Activity:</h3>
+
+<h4>Activity: 
+<%=link_to @item_model.item_category.activity.name, activity_path(@item_model.item_category.activity)%>
+</h4>
+
+<h4>Item Category:
+<%=link_to @item_model.item_category.name, item_category_path(@item_model.item_category)%><br>
+</h4>
+
+
+<h3>Product Characteristics:</h3>
+<h4>Product Overall Rating: <%=@item_model.overall_rating%></h4>
+
+<br>
+
+<%if params[:add_char]%>
+    <%=render partial: 'add_char_form', locals: {model: @item_model, char: @characteristic, imc: @item_model_characteristic}%>
+<%else%>
+    <%=link_to "Sort by Avg Review", item_model_path(@item_model, sort: "review")%><br>
+    <%=link_to "Sort by Review Count", item_model_path(@item_model, sort: "count")%><br><br>
+    <%=render partial: 'char_display', locals: {item_model_characteristics: ItemModelCharacteristic.sort_by_param({item_model: @item_model, sort_type: params[:sort]})}%>
+    <h4><%=link_to "Add a Characteristic", item_model_path(@item_model, add_char: true)%></h4>
+<%end%>
+
+
+

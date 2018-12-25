@@ -1,0 +1,14 @@
+<h2>All Item Categories by Activity</h2>
+
+<%Activity.all.each do |activity|%>
+    <h4><%=link_to activity.name, activity_path(activity)%></h4>
+
+    <div>
+    <ul style="list-style-type:none">
+    <%activity.item_categories.each do |item_cat|%>
+        <li><%=link_to item_cat.name, item_category_path(item_cat)%></li>
+    <%end%>
+    </ul>
+    </div>
+
+<%end%>

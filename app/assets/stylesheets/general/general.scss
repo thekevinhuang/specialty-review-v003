@@ -1,0 +1,63 @@
+h3{
+
+    color: deepskyblue;
+    a {
+        color: royalblue;
+    }
+
+    a:hover {
+        color: black;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: royalblue;
+    }
+    
+}
+
+
+ul {
+    
+    list-style-type: none;
+}
+
+li {
+    a{
+        color: lightslategray;
+        font-size: 20px;
+    }
+    
+    a:hover {
+        color: black;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color:lightslategray;
+    }
+}
+
+p.desc {
+    color: darkgrey;
+    font-size: 16px;
+    font-style: italic;
+}
+
+div.field_with_errors {
+    input[type=text] {
+        border:1px solid red;
+        border-radius: 4px;
+    }
+
+    textarea {
+        border:1px solid red;
+        border-radius: 4px;
+    }
+    
+}
+
+div.alert {
+    font-size: 16px;
+    color: red;
+}

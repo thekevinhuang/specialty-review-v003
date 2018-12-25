@@ -1,0 +1,32 @@
+<div>
+    <h4>Add a Characteristic to <%=model.name%></h4>
+
+
+    <%=form_for imc do |f|%>
+        <% if imc.errors.any? %>
+        <div id="error_explanation">
+          <h2>There were some errors:</h2>
+          <ul>
+            <% imc.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+        <% end %>
+        <%=hidden_field_tag 'item_model[id]', model.id%>
+
+        <%=f.label "Select a Characteristic"%>
+        <%=f.collection_select(:characteristic_id, Characteristic.all, :id, :name, prompt: true)%><br><br>
+
+        <%=f.label "OR create a new Characteristic"%><br><br>
+        <%=fields_for :characteristic do |fields|%>
+            <%=fields.label "New Characteristic Name"%><br>
+            <%=fields.text_field :name%><br><br>
+
+            <%=fields.label "New Characteristic Description"%><br>
+            <%=fields.text_area :description%><br><br>
+        <%end%>
+
+        <%=f.submit "Add Characteristic to #{model.name}", class: "btn btn-outline-dark"%>
+    <%end%>
+</div>

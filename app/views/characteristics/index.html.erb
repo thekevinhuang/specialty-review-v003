@@ -1,0 +1,7 @@
+<h2>List of Characteristics</h2>
+
+<ul>
+    <%Characteristic.all.each do |characteristic|%>
+        <li><%= link_to characteristic.name, characteristic_path(characteristic)%> - <%=characteristic.description%></li>
+    <%end%>
+</ul>

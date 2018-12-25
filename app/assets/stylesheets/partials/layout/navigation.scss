@@ -1,0 +1,61 @@
+.navbar-default, .navbar-toggle:focus, .collapsed, button.navbar-toggle {
+    background: $navbarColor !important;
+    border: none;
+    a {
+      color: silver !important;
+    }
+  }
+
+  
+nav {
+    .navbar-header {
+      width: 100%;
+      button, .navbar-brand {
+        transition: opacity 0.15s;
+      }
+      button {
+        margin-right: 0;
+      }
+      button:hover, .navbar-brand:hover {
+        opacity: 0.8;
+      }
+    }
+
+    .col-sm-5, .col-sm-7 {
+        padding: 0;
+      }
+  }
+
+  body {
+    margin-top: 50px;
+   }
+
+  
+   .icon-bar {
+    background-color: white !important;
+  }
+  
+  .active a {
+    background: $navbarColor !important;
+    border-bottom: solid 5px white;
+  }
+  
+  .dropdown-toggle, .dropdown-menu {
+    background: $navbarColor !important;
+    border: none;
+  }
+  
+  .dropdown-menu a:hover {
+    color: black !important;
+    background: white !important;
+  }
+
+  .pc-menu {
+    margin-right: 10px;
+  }
+
+  .navbar-brand {
+      
+      font-size: 30px;
+      
+  }
