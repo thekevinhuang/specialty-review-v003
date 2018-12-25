@@ -26,6 +26,14 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+gem "rack", ">= 2.0.6"
+
+gem "activejob", ">= 5.2.1.1"
+
+gem "activestorage", ">= 5.2.1.1"
+
+gem "loofah", ">= 2.2.3"
+
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 
@@ -34,6 +42,8 @@ gem 'dotenv-rails'
 gem 'bootstrap-sass'
 
 gem 'jquery-rails'
+
+gem 'handlebars-rails'
 
 gem 'pry'
 
