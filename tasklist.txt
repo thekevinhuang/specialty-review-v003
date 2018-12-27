@@ -1,0 +1,18 @@
+Things to modify:
+Create new activies, item categories, etc.
+
+Sorting should be able to be completed without reloading anything
+
+Adding Characteristics should be done without loading a new page
+
+Reviewing should be done without having to load new page. Radio button on click creates a message box for description?
+
+have a load option for displaying reviews on the profile page
+
+Main Issues:
+
+1) how can i render a partial while passing in objects in ERB BEFORE JS in order to render the partial correctly (<%=@activity = Activity.new%>
+2) how can i hijack the submit button in the partial immediately after adding it to the HTML.
+3) then update the page with results
+
+Index should realistically obtain a list asynchronously. That way with new creations, the list should auto update.
