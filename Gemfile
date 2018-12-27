@@ -43,7 +43,6 @@ gem 'bootstrap-sass'
 
 gem 'jquery-rails'
 
-gem 'handlebars-rails'
 
 gem 'pry'
 

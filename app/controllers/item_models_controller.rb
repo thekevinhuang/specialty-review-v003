@@ -10,6 +10,11 @@ class ItemModelsController < ApplicationController
         if !@characteristic
             @characteristic = Characteristic.new
         end
+
+        respond_to do |format|
+            format.html {render :show}
+            format.json {render json:@item_model}
+        end
     end
 
     def new

@@ -3,6 +3,10 @@ class ActivitiesController < ApplicationController
     
     def show
         @activity = Activity.find_by(id: params[:id])
+        respond_to do |format|
+            format.html {render :show}
+            format.json {render json:@activity}
+        end
     end
 
     def new
@@ -27,6 +31,10 @@ class ActivitiesController < ApplicationController
 
     def index
         @activities = Activity.all
+        respond_to do |format|
+            format.html {render :index}
+            format.json {render json: @activities}
+        end
     end
 
     private

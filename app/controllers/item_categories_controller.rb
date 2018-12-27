@@ -29,11 +29,20 @@ class ItemCategoriesController < ApplicationController
 
     def show
         @item_category = ItemCategory.find_by(id: params[:id])
-        
+        respond_to do |format|
+            format.html {render :show}
+            format.json {render json: @item_category}
+        end
     end
 
     def index
+        @item_categories = ItemCategory.all
 
+        respond_to do |format|
+            format.html {render :index}
+            format.json {render json:@item_categories}
+        end
+        
     end
 
     private
