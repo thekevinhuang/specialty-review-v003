@@ -1,12 +1,13 @@
 class ActivitiesController < ApplicationController
     before_action :require_log_in
-    protect_from_forgery :except => :new
+    protect_from_forgery :except => [:new, :index]
     
     def show
         @activity = Activity.find_by(id: params[:id])
         respond_to do |format|
-            format.html {render :show}
-            format.json {render json:@activity}
+            format.js {render 'show.js'}
+            format.html {render 'show.html'}
+            format.json {render json:@activity, include: 'item_categories'}
         end
     end
 
@@ -31,8 +32,10 @@ class ActivitiesController < ApplicationController
 
     def index
         @activities = Activity.all
+        
         respond_to do |format|
-            format.html {render :index}
+            format.js {render 'index.js', :layout =>false }
+            format.html {render 'index.html'}
             format.json {render json: @activities}
         end
     end

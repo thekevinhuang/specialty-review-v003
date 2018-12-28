@@ -1,0 +1,16 @@
+
+let htmlActivityList = ""
+    
+$.get("/activities.json", function(data) {
+    data.forEach((element, index) => {htmlActivityList += activityLink(element)})
+    $("#activity-list").html(htmlActivityList)
+})
+
+//simply load the partial when the button is clicked
+$("#new-activity").on("click", function(e){
+    $.ajax({
+        url: 'activities/new',
+        dataType: 'script'
+    })
+    $("#new-activity").hide()
+})    

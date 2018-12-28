@@ -1,0 +1,6 @@
+let htmlItemCategoryList = ""
+//need to work out how to get item categories pertaining to a specific activity.
+$.get("/item_categories.json", function(data) {
+    data.forEach((element, index) => {htmlItemCategoryList += itemCategoryLink(element)})
+    $("#item-category-list").html(htmlItemCategoryList)
+})

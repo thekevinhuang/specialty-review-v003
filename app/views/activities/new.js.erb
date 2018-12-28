@@ -1,5 +1,18 @@
+
 var activityFormHTML = "<%=j(render partial: 'form', locals: {current_object: @activity, parent_object: nil})%>"
 $("#activity-form").html(activityFormHTML)
 
+$("form#new_activity").submit(function(event) {
+    event.preventDefault()
 
-activityCreate()
+    var values =  $(this).serialize()
+
+    var posting = $.post('/activities', values)
+
+    posting.done(function (data){
+        $("#activity-form").empty()
+        $("#new-activity").show()
+        debugger
+        $("#activity-list").append(activityLink(data))
+    })
+})
