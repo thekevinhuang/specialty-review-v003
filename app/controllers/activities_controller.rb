@@ -1,5 +1,6 @@
 class ActivitiesController < ApplicationController
     before_action :require_log_in
+    protect_from_forgery :except => :new
     
     def show
         @activity = Activity.find_by(id: params[:id])
@@ -17,11 +18,10 @@ class ActivitiesController < ApplicationController
 
     def create
         @activity = Activity.new(activity_params)
-
         if @activity.save
-            redirect_to activity_path(@activity)
+            render json: @activity, status: 201
         else
-            render :new
+            render :index
         end
     end
 

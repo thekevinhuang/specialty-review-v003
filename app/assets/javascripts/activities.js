@@ -1,10 +1,29 @@
 function activityFormLoad() {
     //simply load the partial when the button is clicked
-    
+    $("#new-activity").on("click", function(e){
+        $.ajax({
+            url: 'activities/new',
+            dataType: 'script'
+        })
+        $("#new-activity").hide()
+    })    
 }
 
 function activityCreate() {
     //obtain the information from a form, serialize it, and post it.
+    $("form#new_activity").submit(function(event) {
+        event.preventDefault()
+
+        var values =  $(this).serialize()
+
+        var posting = $.post('/activities', values)
+
+        posting.done(function (data){
+            $("#activity-form").empty()
+            $("#new-activity").show()
+            activityList()
+        })
+    })
 }
 
 function activityList() {
@@ -19,4 +38,5 @@ function activityList() {
 
 $(document).ready(function initialize() {
     activityList()
+    activityFormLoad()
 })
