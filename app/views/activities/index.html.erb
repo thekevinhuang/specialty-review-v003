@@ -2,6 +2,9 @@
     <h2>Current Existing Activities</h2>
     <ul>
         <div id="activity-list">
+        <%@activities.each do |activity|%>
+            <li><%=link_to activity.name, activity_path(activity)%></li>
+        <%end%>
         </div>
     </ul>
 

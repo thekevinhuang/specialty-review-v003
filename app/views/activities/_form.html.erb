@@ -1,3 +1,5 @@
+<h3><%="New #{current_object.class.name.underscore.humanize}"%> </h3>
+
 <%=form_for(current_object) do |f|%>
     <% if current_object.errors.any? %>
         <div id="error_explanation">
