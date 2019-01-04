@@ -36,7 +36,7 @@ class ActivitiesController < ApplicationController
         respond_to do |format|
             format.js {render 'index.js', :layout =>false }
             format.html {:index}
-            format.json {render json: @activities}
+            format.json {render json: @activities, include: 'item_categories'}
         end
     end
 

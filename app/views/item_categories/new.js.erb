@@ -10,8 +10,6 @@ $("form#new_item_category").submit(function(event) {
     var posting = $.post('/item_categories', values)
 
     posting.done(function (data){
-        $("#item-category-form").empty()
-        $("#new-item-category").show()
-        asyncActivityItemCategory()
+        itemCategoryRefresh()
     })
 })

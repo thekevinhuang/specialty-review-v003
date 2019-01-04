@@ -29,7 +29,7 @@ function activityLink(element) {
 function asyncActivityItemCategory () {
     let htmlItemCategoryList = ""
     var activity_id = activityShowId()
-    //need to work out how to get item categories pertaining to a specific activity.
+    
     $.get("/activities/"+ activity_id +".json", function(data) {
         data.item_categories.forEach((element, index) => {htmlItemCategoryList += itemCategoryLink(element)})
         $("#item-category-list").html(htmlItemCategoryList)
