@@ -21,7 +21,7 @@ class ItemCategoriesController < ApplicationController
         @item_category.activity = @activity
 
         if @item_category.save
-            redirect_to activity_item_category_path(@activity, @item_category)
+            render json: @item_category, status: 201
         else
             render :new
         end

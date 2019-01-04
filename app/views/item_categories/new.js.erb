@@ -1,0 +1,17 @@
+
+var itemCategoryFormHTML = "<%=j(render partial: 'activities/form', locals: {current_object: @item_category, parent_object: @activity ||=Activity.new})%>"
+$("#item-category-form").html(itemCategoryFormHTML)
+
+$("form#new_item_category").submit(function(event) {
+    event.preventDefault()
+
+    var values =  $(this).serialize()
+
+    var posting = $.post('/item_categories', values)
+
+    posting.done(function (data){
+        $("#item-category-form").empty()
+        $("#new-item-category").show()
+        asyncActivityItemCategory()
+    })
+})

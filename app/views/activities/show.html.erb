@@ -1,13 +1,11 @@
 <%= link_to 'Back to Activities', activities_path, class: "activity-loader"%>
 <br>
 
-<h2><%=@activity.name%></h2>
+<h2 data-activity-id = "<%=@activity.id%>"><%=@activity.name%></h2>
 
 
 
 <h3>Item Categories</h3>
-
-
 
 <ul>
     <div id="item-category-list">
@@ -20,5 +18,5 @@
 <br>
 <br>
 
-<h4><%=link_to "Add new Item Category", new_activity_item_category_path(@activity)%></h4>
+<button id= "new-item-category">Add a new Item Category</button>
 

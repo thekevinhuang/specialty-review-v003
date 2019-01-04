@@ -14,10 +14,10 @@
 
     <%if parent_object%>
         <%if parent_object.id%>
-            <h3><%=parent_object.class.name.underscore.humanize%>: <%=parent_object.name%></h3>
+            <h4><%=parent_object.class.name.underscore.humanize%>: <%=parent_object.name%></h4>
             <%=hidden_field_tag "parent[parent_id]", parent_object.id%>
         <%else%>
-            <h3>Select a <%=parent_object.class.name.underscore.humanize%>:</h3>
+            <h4>Select a <%=parent_object.class.name.underscore.humanize%>:</h4>
             <%=collection_select(:parent, :parent_id, parent_object.class.all, :id, :name)%><br><br>
             Or first create a <%=link_to "new #{parent_object.class.name.underscore.humanize}", url_for([:new, parent_object.class.name.underscore.downcase])%><br><br>
         <%end%>
