@@ -18,17 +18,6 @@ function activityIndexFormShow() {
         $("#new-activity").hide()
     }) 
 }
-//To force the nav bar activities button to load the ajax events. Not sure how to circumvent.
-
-function activityIndexLoader() {
-    $("#activity-loader").on("click", function(e) {
-        e.preventDefault()
-        window.location.replace("/activities")
-        $(document).ready(function initialize() {
-            activityIndexFormShow()
-        })
-    })
-}
 
 function activityLink(element) {
     return '<li><a href = "activities/' + element.id + '">' + element.name + '</a></li>'
@@ -37,11 +26,23 @@ function activityLink(element) {
 
 //Activity Show Functions:
 
+function asyncActivityItemCategory () {
+    let htmlItemCategoryList = ""
+    //need to work out how to get item categories pertaining to a specific activity.
+    $.get("/activities/"+  +".json", function(data) {
+        data.forEach((element, index) => {htmlItemCategoryList += itemCategoryLink(element)})
+        $("#item-category-list").html(htmlItemCategoryList)
+    })
+}
 function itemCategoryLink(element) {
     return '<li><a href = "item_categories/' + element.id + '">' + element.name + '</a></li>'
 }
 
-$(document).ready(function initialize() {
-    activityIndexLoader()
-    activityIndexFormShow()
+$(document).on('turbolinks:load', function () {
+    if  ($(".activities.index").length) {
+        activityIndexFormShow()
+
+    } else if ($(".activities.show").length){
+        alert ("this is activities show")
+    }
 })
