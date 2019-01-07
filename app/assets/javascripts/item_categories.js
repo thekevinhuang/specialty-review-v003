@@ -59,14 +59,14 @@ function itemCategoryShowModelList() {
     $.get("/item_categories/"+itemCategoryId()+ "/item_model_list", function(data) {
         data.forEach((element, index) => {
             htmlItemModelList += itemCategoryShowItemModelLink(element)
+            $('#item-model-list').html(htmlItemModelList)
         })
-        debugger
     })
 
 }
 
 function itemCategoryShowItemModelLink (element) {
-    return '<li><a href=""></a></li>'
+    return '<li><a href="/item_categories/'+itemCategoryId()+'/item_model/'+ element.id+'">'+element.name + ' - Rating: '+ element.overall_rating+'</a></li>'
 }
 
 function itemCategoryId() {
