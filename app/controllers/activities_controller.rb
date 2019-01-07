@@ -5,7 +5,6 @@ class ActivitiesController < ApplicationController
     def show
         @activity = Activity.find_by(id: params[:id])
         respond_to do |format|
-            format.js {render 'show.js'}
             format.html {render 'show.html'}
             format.json {render json:@activity, include: 'item_categories'}
         end

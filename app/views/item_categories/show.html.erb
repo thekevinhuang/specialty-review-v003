@@ -1,4 +1,4 @@
-<h2><%=@item_category.name%></h2>
+<h2 data-item_category-id = "<%=@item_category.id%>"><%=@item_category.name%></h2>
 
 <p class="desc"><%=@item_category.description%></p>
 
@@ -7,6 +7,12 @@
 <h3>Specific Models:</h3>
 
 <h4><%=link_to "Add a new Model", new_item_category_item_model_path(@item_category)%></h4>
+
+<ul>
+    <div id="item-model-list">
+    </div>
+</ul>
+
 
 <ul>
     <%ItemModel.sorted_by_overall_rating_desc(@item_category).each do |item_model|%>

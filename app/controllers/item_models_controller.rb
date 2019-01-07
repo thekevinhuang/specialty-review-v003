@@ -41,6 +41,13 @@ class ItemModelsController < ApplicationController
         end
     end
 
+    def listByRating
+        item_category_id = params[:id]
+        @item_category = ItemCategory.find_by(id: item_category_id)
+        @item_model_list = ItemModel.sorted_by_overall_rating_desc(@item_category)
+        render json: @item_model_list, include: ['item_model_characteristics', 'item_model_characteristics.ratings']
+    end
+
     private
 
     def item_model_params

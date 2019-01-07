@@ -1,3 +1,4 @@
+//Associated with Item Category Index page
 function itemCategoryNewForm() {
     
     $("#new-item-category").on("click", function(e){
@@ -46,11 +47,37 @@ function itemCategoryIndexItemCategoryLink (item_categories_array) {
     return item_category
 }
 
+//Associated with Item Category Show
+
+function itemCategoryShowModelFormShow() {
+    
+}
+
+function itemCategoryShowModelList() {
+    htmlItemModelList = ""
+
+    $.get("/item_categories/"+itemCategoryId()+ "/item_model_list", function(data) {
+        data.forEach((element, index) => {
+            htmlItemModelList += itemCategoryShowItemModelLink(element)
+        })
+        debugger
+    })
+
+}
+
+function itemCategoryShowItemModelLink (element) {
+    return '<li><a href=""></a></li>'
+}
+
+function itemCategoryId() {
+    return $('*[data-item_category-id]').attr("data-item_category-id")
+}
+
 $(document).on('turbolinks:load', function () {
     if  ($(".item_categories.index").length) {
         itemCategoryNewForm()
         asyncItemCategoryIndex()
     } else if ($(".item_categories.show").length){
-        
+        itemCategoryShowModelList()
     }
 })

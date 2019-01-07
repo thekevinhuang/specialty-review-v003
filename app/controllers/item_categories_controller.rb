@@ -31,7 +31,7 @@ class ItemCategoriesController < ApplicationController
         @item_category = ItemCategory.find_by(id: params[:id])
         respond_to do |format|
             format.html {render :show}
-            format.json {render json: @item_category}
+            format.json {render json: @item_category, include: 'item_models'}
         end
     end
 
