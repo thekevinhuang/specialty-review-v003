@@ -1,4 +1,4 @@
-<h2><%=@item_model.name%> Details</h2>
+<h2 data-item-model-id = "<%=@item_model.id%>"><%=@item_model.name%> Details</h2>
 
 <p class="desc"><%=@item_model.description%></p>
 
@@ -17,6 +17,16 @@
 <h4>Product Overall Rating: <%=@item_model.overall_rating%></h4>
 
 <br>
+
+<div id= "characteristic-form"></div>
+
+<button id= "new-characteristic">Add a new Characteristic</button>
+<br><br>
+
+<button id= "sort-rating">Sort by Average Review</button>
+<button id= "sort-count">Sort by Review Count</button>
+
+<div id="characteristic-list"></div>
 
 <%if params[:add_char]%>
     <%=render partial: 'add_char_form', locals: {model: @item_model, char: @characteristic, imc: @item_model_characteristic}%>

@@ -1,0 +1,14 @@
+var characteristicFormHTML = "<%=j(render partial: 'item_models/add_char_form', locals: {model: @item_model, char: @characteristic, imc: @item_model_characteristic})%>"
+$("#characteristic-form").html(characteristicFormHTML)
+
+$("form#new_characteristic").submit(function(event) {
+    event.preventDefault()
+
+    var values =  $(this).serialize()
+
+    var posting = $.post('/item_model_characteristics', values)
+
+    posting.done(function (data){
+        itemModelRefresh()
+    })
+})

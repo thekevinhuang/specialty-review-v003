@@ -6,6 +6,17 @@ class ItemModelCharacteristicsController < ApplicationController
     end
     
     def new
+        
+        @item_model = ItemModel.find_by(id: params[:id])
+
+        if !@item_model_characteristic
+            @item_model_characteristic = ItemModelCharacteristic.new
+        end
+        
+        if !@characteristic
+            @characteristic = Characteristic.new
+        end
+
     end
 
     def create

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   delete '/signout' => 'sessions#destroy'
 
   get '/item_categories/:id/item_model_list' => 'item_models#listByRating'
+  get '/item_models/:id/item_model_characteristics/new' => 'item_model_characteristics#new'
 
   resources :activities do
     resources :item_categories, name_prefix: "activity_"
