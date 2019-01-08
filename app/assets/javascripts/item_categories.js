@@ -73,7 +73,7 @@ function itemCategoryShowModelList() {
 }
 
 function itemCategoryShowItemModelLink (element) {
-    return '<li><a href="/item_categories/'+itemCategoryId()+'/item_model/'+ element.id+'">'+element.name + ' - Rating: '+ element.overall_rating+'</a></li>'
+    return '<li><a href="/item_categories/'+itemCategoryId()+'/item_models/'+ element.id+'">'+element.name + ' - Rating: '+ element.overall_rating+'</a></li>'
 }
 
 function itemCategoryId() {
