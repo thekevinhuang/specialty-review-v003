@@ -50,7 +50,14 @@ function itemCategoryIndexItemCategoryLink (item_categories_array) {
 //Associated with Item Category Show
 
 function itemCategoryShowModelFormShow() {
-    
+    var item_category_id = itemCategoryId()
+    $('#new-item-model').on('click', function (e) {
+        $.ajax({
+            url: '/item_categories/'+item_category_id + '/item_models/new',
+            dataType: 'script'
+        })
+        $("#new-item-model").hide()
+    })
 }
 
 function itemCategoryShowModelList() {
@@ -79,5 +86,6 @@ $(document).on('turbolinks:load', function () {
         asyncItemCategoryIndex()
     } else if ($(".item_categories.show").length){
         itemCategoryShowModelList()
+        itemCategoryShowModelFormShow()
     }
 })

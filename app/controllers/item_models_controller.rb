@@ -35,7 +35,7 @@ class ItemModelsController < ApplicationController
         @item_model.item_category = @item_category
 
         if @item_model.save
-            redirect_to item_category_item_model_path(@item_category, @item_model)
+            render json: @item_model, status: 201
         else
             render :new
         end

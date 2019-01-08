@@ -6,17 +6,18 @@
 
 <h3>Specific Models:</h3>
 
-<h4><%=link_to "Add a new Model", new_item_category_item_model_path(@item_category)%></h4>
-
 <ul>
     <div id="item-model-list">
     </div>
 </ul>
 
+<br>
+<br>
 
-<ul>
-    <%ItemModel.sorted_by_overall_rating_desc(@item_category).each do |item_model|%>
-        <li><%=link_to "#{item_model.name} - Rating: #{item_model.overall_rating}", item_category_item_model_path(item_model)%></li>
-    <%end%>
-</ul>
+<div id="item-model-form"></div>
+
+<button id= "new-item-model">Add a new Model</button>
+<br>
+<br>
+
 

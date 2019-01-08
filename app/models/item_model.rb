@@ -34,7 +34,7 @@ class ItemModel < ActiveRecord::Base
     end
 
     def self.sorted_by_overall_rating_desc(item_category)
-        self.by_item_category(item_category).sort_by(&:overall_rating).reverse
+        self.by_item_category(item_category).sort{|a,b| a.overall_rating.to_f <=> b.overall_rating.to_f}.reverse
     end
 
     private
