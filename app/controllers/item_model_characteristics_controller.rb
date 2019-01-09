@@ -3,6 +3,10 @@ class ItemModelCharacteristicsController < ApplicationController
     
     def show
         @item_model_characteristic = ItemModelCharacteristic.find_by(id: params[:id])
+        respond_to do |format|
+            format.html {render :show}
+            format.json {render json: @item_model_characteristic, include: 'ratings'}
+        end
     end
     
     def new
@@ -17,6 +21,17 @@ class ItemModelCharacteristicsController < ApplicationController
             @characteristic = Characteristic.new
         end
 
+    end
+
+    def index
+        @item_model_characteristics = ItemModelCharacteristic.all
+        render json: @item_model_characteristics
+    end
+
+    def sorted_characteristic_list
+        sort = params[:sort]
+        @item_model = ItemModel.find_by(id: params[:id])
+        @item_model_characteristics = ItemModelCharacteristic.sort_by_param({item_model: @item_model, sort_type: params[:sort]})
     end
 
     def create

@@ -26,7 +26,7 @@ class ItemModelCharacteristic < ActiveRecord::Base
     end
 
     def self.sorted_by_avg_review(item_model)
-        self.by_model(item_model).sort_by(&:average_rating).reverse
+        @avg = self.by_model(item_model).sort{|a,b| a.average_rating.to_f <=> b.average_rating.to_f}.reverse
     end
 
     def self.sort_by_param(item_model: :item_model, sort_type: :sort_type)

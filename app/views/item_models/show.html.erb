@@ -23,19 +23,17 @@
 <button id= "new-characteristic">Add a new Characteristic</button>
 <br><br>
 
-<button id= "sort-rating">Sort by Average Review</button>
-<button id= "sort-count">Sort by Review Count</button>
+<button id = "sort-review" data-sort = "review">Sort by Average Review</button>
+<button id = "sort-count" data-sort = "count">Sort by Review Count</button>
 
-<div id="characteristic-list"></div>
 
-<%if params[:add_char]%>
-    <%=render partial: 'add_char_form', locals: {model: @item_model, char: @characteristic, imc: @item_model_characteristic}%>
-<%else%>
-    <%=link_to "Sort by Avg Review", item_model_path(@item_model, sort: "review")%><br>
-    <%=link_to "Sort by Review Count", item_model_path(@item_model, sort: "count")%><br><br>
-    <%=render partial: 'char_display', locals: {item_model_characteristics: ItemModelCharacteristic.sort_by_param({item_model: @item_model, sort_type: params[:sort]})}%>
-    <h4><%=link_to "Add a Characteristic", item_model_path(@item_model, add_char: true)%></h4>
-<%end%>
+<br><br>
+<div id="characteristic-list">
+    <%=render partial: 'char_display', locals: {item_model_characteristics: ItemModelCharacteristic.sort_by_param({item_model: @item_model, sort_type: "review"})}%>
+</div>
+
+
+
 
 
 

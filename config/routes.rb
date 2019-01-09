@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   get '/item_categories/:id/item_model_list' => 'item_models#listByRating'
   get '/item_models/:id/item_model_characteristics/new' => 'item_model_characteristics#new'
+  get '/item_models/:id/item_model_characteristics/:sort' => 'item_model_characteristics#sorted_characteristic_list'
 
   resources :activities do
     resources :item_categories, name_prefix: "activity_"
@@ -20,7 +21,7 @@ Rails.application.routes.draw do
 
   resources :item_models
 
-  resources :item_model_characteristics, only: [:new, :create, :show] do
+  resources :item_model_characteristics, only: [:new, :create, :show, :index] do
     resources :ratings, name_prefix: "item_model_characteristic_"
   end
 
