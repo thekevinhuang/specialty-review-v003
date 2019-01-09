@@ -39,6 +39,11 @@ function itemModelShowCharacteristicList() {
     })
 }
 
+function itemModelReset() {
+    itemModelShowCharacteristicFormShow()
+    itemModelShowRatingUpdate()
+}
+
 function itemModelShowSortButton (button) {
     $("#characteristic-list").empty()
     item_model_id = itemModelId()
@@ -49,12 +54,61 @@ function itemModelShowSortButton (button) {
     })
 }
 
+function itemModelShowRatingUpdate() {
+    //adds the on click to all of the radio rating buttons
+    $("[id^='rating-button']").each((index, element) => {
+        
+        var imc_id = $(element).data("imc")
+        $(element).on("click", function () {
+            itemModelShowRatingDescToggle(imc_id)
+        })
+        itemModelShowRatingFormSubmit(imc_id)    
+    })
+}
+
+function itemModelShowRatingFormSubmit(imc_id) {
+    rating_form = $('#rating-form-for-'+imc_id)
+
+    rating_form.submit(function(event) {
+        event.preventDefault()
+    
+        var values =  $(this).serialize()
+        rating_id = itemModelShowRatingId(imc_id)
+        
+        if (rating_id) {
+            var posting = $.ajax('/ratings/'+rating_id,{
+                type: 'PATCH',
+                data: values
+            })
+        } else {
+            var posting = $.post('/ratings', values)
+        }
+    
+        posting.done(function (data){
+            $("#sort-review").click()
+        })
+    })
+}
+
+function itemModelShowRatingId(imc_id) {
+    return $('*[data-rating-id-'+imc_id+']').attr("data-rating-id-"+imc_id)
+}
+
+function itemModelShowRatingDescToggle(imc_id) {
+    if ($('#rating-description-'+imc_id).is(":hidden")) {
+        $('#rating-description-'+imc_id).attr("hidden", false)
+    } else {
+        $('#rating-description-'+imc_id).attr("hidden", true)
+    }
+    
+}
+
 
 
 $(document).on('turbolinks:load', function () {
     if  ($(".item_models.show").length) {
-        itemModelShowCharacteristicFormShow()
         itemModelShowCharacteristicList()
+        itemModelReset()
     } else if ($(".item_categories.show").length){
         
     }

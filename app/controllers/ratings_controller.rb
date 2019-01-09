@@ -16,7 +16,7 @@ class RatingsController <ApplicationController
         @rating = Rating.new(rating_params)
 
         if @rating.save
-            redirect_to rating_path(@rating)
+            render json: @rating
         else
             redirect_to root_path
         end
@@ -32,7 +32,7 @@ class RatingsController <ApplicationController
 
     def update
         if @rating.update(rating_params)
-            redirect_to rating_path(@rating)
+            render json: @rating
         else
             redirect_to edit_rating_path(@rating)
         end

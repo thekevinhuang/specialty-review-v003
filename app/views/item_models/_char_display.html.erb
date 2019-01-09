@@ -5,8 +5,11 @@
         Total Number of Reviews: <%=item_model_char.review_count%> <br> 
         Average Review: <%=item_model_char.average_rating%><br>
         <%=link_to "All reviews for this product's #{characteristic.name}", item_model_characteristic_path(item_model_char)%><br>
+
         <%if !item_model_char.ratings.where(user_id: current_user.id).empty?%>
             <%rating = Rating.from_parent(user: current_user, item_model_characteristic: item_model_char)%>
+
+            <%=render partial: 'ratings/rating_form_simple', locals: {item_model_char: item_model_char, rating: rating}%>
             Your current rating: <%=link_to rating.rating, rating_path(rating)%> - <%=link_to "Edit Rating", edit_rating_path(rating)%> <br>
         <%else%>
             <%=link_to "Click to add Review", new_item_model_characteristic_rating_path(item_model_char)%><br>
