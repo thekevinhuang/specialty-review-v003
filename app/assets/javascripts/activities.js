@@ -1,42 +1,3 @@
-//ensure requests contain the token
-$.ajaxSetup({
-    headers: {
-      'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-    }
-  })
-
-//Create a form for Name and Description
-
-function newHTMLForm(className, parentId = 0, parentClass = "NothingClass", parentName = "NothingName") {
-    
-    parentHTML = ``
-    if (parentId>0) {
-        parentHTML = `
-        <h4>${parentClass}: ${parentName}</h4>
-        <input type="hidden" name="parent[parent_id]" id="parent_parent_id" value = "${parentId}">
-        `
-    }
-
-    html = `
-        <h3>New ${(className.charAt(0).toUpperCase() + className.slice(1)).replace("_", " ")}</h3>
-        <form class = "new_${className}" id="new_${className}" accept-charset="UTF-8">
-            ${parentHTML}
-            <label for="${className}_name">Name</label>
-            <br>
-            <input type="text" name="${className}[name]" id="${className}_name">
-            <br>
-            <br>
-            <label for="${className}_description">Description</label>
-            <br>
-            <textarea name="${className}[description]" id="${className}_description"></textarea>
-            <br>
-            <br>
-            <input type="submit" name="commit" value = "Create ${(className.charAt(0).toUpperCase() + className.slice(1)).replace("_", " ")}">
-        </form>
-    `
-    return html
-}
-
 //Get page data
 
 function activityShowId () {
@@ -47,7 +8,12 @@ function activityShowName() {
     return $(".activity-name")[0].innerHTML
 }
 
-
+function activityArray() {
+    $.get("/activities.json", function (data){
+        var activity_list = data
+    })
+    return activity_list
+}
 
 //Activity Class Creation
 
@@ -57,7 +23,8 @@ class ActivityShow {
         this.name = activityShowName()
         this.className = "activity"
         this.childName = "item_category"
-        this.formHTML = newHTMLForm(this.childName, this.id, this.className, this.name)
+        let activityShowForm = new GenericForm({className:this.childName, parentId:this.id, parentClass:this.className, parentName:this.name})
+        this.formHTML = activityShowForm.newHTMLForm()
     }
 
     itemCategoryLink(element) {
@@ -67,7 +34,7 @@ class ActivityShow {
 
     newItemCategoryFormShow() {
         var activityShow = this
-        html = activityShow.formHTML
+        let html = activityShow.formHTML
         $("#new-item-category").on("click", function(e){
             $("#item-category-form").html(html)
             $("#new-item-category").hide()
@@ -108,7 +75,8 @@ class ActivityShow {
 
 class ActivityIndex {
     constructor() {
-        this.formHTML = newHTMLForm("activity")
+        let activityIndexForm = new GenericForm({className:"activity"})
+        this.formHTML = activityIndexForm.newHTMLForm("activity")
     }
 
     asyncActivityList() {
@@ -143,7 +111,7 @@ class ActivityIndex {
 
     newActivityFormShow() {
         var activityIndex = this
-        html = activityIndex.formHTML
+        let html = activityIndex.formHTML
         $("#new-activity").on("click", function(e){
             $("#activity-form").html(html)
             $("#new-activity").hide()

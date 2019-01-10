@@ -1,3 +1,43 @@
+function itemCategoryId() {
+    return $('*[data-item_category-id]').attr("data-item_category-id")
+}
+
+class ItemCategoryIndex {
+    constructor() {
+
+    }
+    
+    newItemCategoryForm() {
+
+    }
+
+    asyncItemCategoryIndex() {
+        let htmlActivityItemCategoryList = ""
+        var itemCategoryIndex = this
+        $.get("/activities.json", function(data) {
+            data.forEach((element, index) => {htmlActivityItemCategoryList += itemCategoryIndex.activityLink(element)})
+            $("#item-category-list").html(htmlActivityItemCategoryList)
+        })
+    }
+
+    activityLink(element) {
+        var itemCategoryIndex = this
+        var activityList = '<h4><a href = "activities/' + element.id + '">' + element.name + '</a></h4>'
+        activityList += '<div> <ul style="list-style-type:none">'
+        //iterate on item_categories and generate more items
+        activityList += itemCategoryIndex.itemCategoryLink(element.item_categories)
+        activityList += '</ul> </div>'
+        return activityList
+    }
+
+    itemCategoryLink (item_categories_array) {
+        var item_category = ''
+        item_categories_array.forEach((element, index) => {
+            item_category+='<li><a href="item_categories/'+element.id + '">' + element.name + '</a></li>'
+        })
+        return item_category
+    }
+}
 //Associated with Item Category Index page
 function itemCategoryNewForm() {
     
@@ -20,32 +60,7 @@ function itemCategoryRefresh() {
     }
 }
 
-function asyncItemCategoryIndex () {
-    //loads activities and their item categories
-    let htmlActivityItemCategoryList = ""
-    
-    $.get("/activities.json", function(data) {
-        data.forEach((element, index) => {htmlActivityItemCategoryList += itemCategoryIndexActivityLink(element)})
-        $("#item-category-list").html(htmlActivityItemCategoryList)
-    })
-}
 
-function itemCategoryIndexActivityLink(element) {
-    var activityList = '<h4><a href = "activities/' + element.id + '">' + element.name + '</a></h4>'
-    activityList += '<div> <ul style="list-style-type:none">'
-    //iterate on item_categories and generate more items
-    activityList += itemCategoryIndexItemCategoryLink(element.item_categories)
-    activityList += '</ul> </div>'
-    return activityList
-}
-
-function itemCategoryIndexItemCategoryLink (item_categories_array) {
-    var item_category = ''
-    item_categories_array.forEach((element, index) => {
-        item_category+='<li><a href="item_categories/'+element.id + '">' + element.name + '</a></li>'
-    })
-    return item_category
-}
 
 //Associated with Item Category Show
 
@@ -76,9 +91,7 @@ function itemCategoryShowItemModelLink (element) {
     return '<li><a href="/item_categories/'+itemCategoryId()+'/item_models/'+ element.id+'">'+element.name + ' - Rating: '+ element.overall_rating+'</a></li>'
 }
 
-function itemCategoryId() {
-    return $('*[data-item_category-id]').attr("data-item_category-id")
-}
+
 
 $(document).on('turbolinks:load', function () {
     if  ($(".item_categories.index").length) {
