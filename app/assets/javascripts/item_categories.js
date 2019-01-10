@@ -2,6 +2,10 @@ function itemCategoryId() {
     return $('*[data-item_category-id]').attr("data-item_category-id")
 }
 
+function itemCategoryShowName() {
+    return $(".item-category-name")[0].innerHTML
+}
+
 class ItemCategoryIndex {
     constructor() {
         this.className = "item_category"
@@ -38,7 +42,7 @@ class ItemCategoryIndex {
         return item_category
     }
 
-    newItemCatForm() {
+    newItemCatFormShow() {
         var itemCatIndex = this
         let html = this.formHTML
         $("#new-item-category").on("click", function(e){
@@ -66,59 +70,72 @@ class ItemCategoryIndex {
         })
     }
 }
-//Associated with Item Category Index page
-
-
-function itemCategoryRefresh() {
-    $("#item-category-form").empty()
-    $("#new-item-category").show()
-    if  ($(".item_categories.index").length) {
-        asyncItemCategoryIndex()
-    } else if ($(".activities.index").length){
-        asyncActivityItemCategory()
-    }
-}
-
-
 
 //Associated with Item Category Show
 
-function itemCategoryShowModelFormShow() {
-    var item_category_id = itemCategoryId()
-    $('#new-item-model').on('click', function (e) {
-        $.ajax({
-            url: '/item_categories/'+item_category_id + '/item_models/new',
-            dataType: 'script'
+class ItemCategoryShow {
+    constructor () {
+        this.id = itemCategoryId()
+        this.className = "item_model"
+        this.parentClass = "item_category"
+        this.parentName = itemCategoryShowName()
+        let itemModelForm = new GenericForm({className:this.className, parentId:this.id,parentClass:this.parentClass,parentName:this.parentName})
+        this.formHTML = itemModelForm.newHTMLForm()
+    }
+
+    itemModelList() {
+        let htmlItemModelList = ""
+        var itemCategoryShow = this
+        $.get("/item_categories/"+itemCategoryId()+ "/item_model_list", function(data) {
+            data.forEach((element, index) => {
+                htmlItemModelList += itemCategoryShow.itemModelLink(element)
+                $('#item-model-list').html(htmlItemModelList)
+            })
         })
-        $("#new-item-model").hide()
-    })
-}
+    }
 
-function itemCategoryShowModelList() {
-    let htmlItemModelList = ""
+    itemModelLink(element) {
+        return '<li><a href="/item_categories/'+itemCategoryId()+'/item_models/'+ element.id+'">'+element.name + ' - Rating: '+ element.overall_rating+'</a></li>'
+    }
 
-    $.get("/item_categories/"+itemCategoryId()+ "/item_model_list", function(data) {
-        data.forEach((element, index) => {
-            htmlItemModelList += itemCategoryShowItemModelLink(element)
-            $('#item-model-list').html(htmlItemModelList)
+    newItemModelFormShow() {
+        let itemCategoryShow = this
+        var html = itemCategoryShow.formHTML
+        $('#new-item-model').on('click', function (e) {
+            $("#item-model-form").html(html)
+            $('#new-item-model').hide()
+
+            itemCategoryShow.newItemModelFormSubmit() 
         })
-    })
+    }
 
+    newItemModelFormSubmit() {
+        let itemCategoryShow = this
+        $("form#new_item_model").submit(function(event) {
+            event.preventDefault()
+        
+            var values =  $(this).serialize()
+        
+            var posting = $.post('/item_models', values)
+        
+            posting.done(function (data){
+                $("#item-model-form").empty()
+                $("#new-item-model").show()
+
+                itemCategoryShow.itemModelList()
+            })
+        })
+    }
 }
-
-function itemCategoryShowItemModelLink (element) {
-    return '<li><a href="/item_categories/'+itemCategoryId()+'/item_models/'+ element.id+'">'+element.name + ' - Rating: '+ element.overall_rating+'</a></li>'
-}
-
-
 
 $(document).on('turbolinks:load', function () {
     if  ($(".item_categories.index").length) {
         let itemCategoryIndex = new ItemCategoryIndex()
-        itemCategoryIndex.newItemCatForm()
+        itemCategoryIndex.newItemCatFormShow()
         itemCategoryIndex.asyncItemCategoryIndex()
     } else if ($(".item_categories.show").length){
-        itemCategoryShowModelList()
-        itemCategoryShowModelFormShow()
+        let itemCategoryShow = new ItemCategoryShow()
+        itemCategoryShow.newItemModelFormShow()
+        itemCategoryShow.itemModelList()
     }
 })
