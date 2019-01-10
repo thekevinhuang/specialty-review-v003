@@ -4,11 +4,11 @@ function itemCategoryId() {
 
 class ItemCategoryIndex {
     constructor() {
-
-    }
-    
-    newItemCategoryForm() {
-
+        this.className = "item_category"
+        this.parentClass = "activity"
+        this.parentArray = activityArray()
+        let itemCatIndexForm = new GenericForm({className:this.className,parentClass:this.parentClass,parentArray:this.parentArray})
+        this.formHTML = itemCatIndexForm.newHTMLForm()
     }
 
     asyncItemCategoryIndex() {
@@ -37,18 +37,37 @@ class ItemCategoryIndex {
         })
         return item_category
     }
+
+    newItemCatForm() {
+        var itemCatIndex = this
+        let html = this.formHTML
+        $("#new-item-category").on("click", function(e){
+            $("#item-category-form").html(html)
+            $("#new-item-category").hide()
+
+            itemCatIndex.newItemCatFormSubmit()
+        })
+    }
+
+    newItemCatFormSubmit() {
+        var itemCatIndex = this
+        $("form#new_item_category").submit(function(event) {
+            event.preventDefault()
+        
+            var values =  $(this).serialize()
+        
+            var posting = $.post('/item_categories', values)
+        
+            posting.done(function (data){
+                $("#item-category-form").empty()
+                $("#new-item-category").show()
+                itemCatIndex.asyncItemCategoryIndex()
+            })
+        })
+    }
 }
 //Associated with Item Category Index page
-function itemCategoryNewForm() {
-    
-    $("#new-item-category").on("click", function(e){
-        $.ajax({
-            url: '/item_categories/new',
-            dataType: 'script'
-        })
-        $("#new-item-category").hide()
-    })
-}
+
 
 function itemCategoryRefresh() {
     $("#item-category-form").empty()
@@ -76,7 +95,7 @@ function itemCategoryShowModelFormShow() {
 }
 
 function itemCategoryShowModelList() {
-    htmlItemModelList = ""
+    let htmlItemModelList = ""
 
     $.get("/item_categories/"+itemCategoryId()+ "/item_model_list", function(data) {
         data.forEach((element, index) => {
@@ -95,8 +114,9 @@ function itemCategoryShowItemModelLink (element) {
 
 $(document).on('turbolinks:load', function () {
     if  ($(".item_categories.index").length) {
-        itemCategoryNewForm()
-        asyncItemCategoryIndex()
+        let itemCategoryIndex = new ItemCategoryIndex()
+        itemCategoryIndex.newItemCatForm()
+        itemCategoryIndex.asyncItemCategoryIndex()
     } else if ($(".item_categories.show").length){
         itemCategoryShowModelList()
         itemCategoryShowModelFormShow()

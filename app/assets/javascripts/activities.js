@@ -9,10 +9,19 @@ function activityShowName() {
 }
 
 function activityArray() {
-    $.get("/activities.json", function (data){
-        var activity_list = data
+    var activityArray = []
+    $.ajax({
+        'async': false,
+        'url': "/activities.json",
+        'success': function (data){
+            var resultArray = []
+            data.forEach((element,index)=> {
+                resultArray.push({id:element.id, name:element.name})
+            })
+            activityArray = resultArray
+        }
     })
-    return activity_list
+    return activityArray
 }
 
 //Activity Class Creation

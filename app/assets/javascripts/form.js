@@ -18,7 +18,7 @@ class GenericForm {
         this.parentId = parentId
         this.parentClass = parentClass
         this.parentName = parentName
-        this.parentArray = []
+        this.parentArray = parentArray
     }
 
     parentSelectOptions(parentArray = []){
@@ -27,6 +27,7 @@ class GenericForm {
         parentArray.forEach((element,index) => {
             parentOptions += form.selectOptionCreate(element)
         })
+        return parentOptions
     }
 
     selectOptionCreate(element) {
@@ -43,9 +44,11 @@ class GenericForm {
         } else if (parentClass != "NothingClass") {
             parentHTML = `
                 <h4>Select a ${readableClassName(parentClass)}:</h4>
-                <select name="parent[parent_id]" id="parent_parent_id>
+                <select name="parent[parent_id]" id="parent_parent_id">
                 ${this.parentSelectOptions(parentArray)}
                 </select>
+                <br>
+                <br>
             `
         } else {
             parentHTML = ``
