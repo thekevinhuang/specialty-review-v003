@@ -8,12 +8,11 @@
 
         <%if !item_model_char.ratings.where(user_id: current_user.id).empty?%>
             <%rating = Rating.from_parent(user: current_user, item_model_characteristic: item_model_char)%>
-
-            <%=render partial: 'ratings/rating_form_simple', locals: {item_model_char: item_model_char, rating: rating}%>
-            Your current rating: <%=link_to rating.rating, rating_path(rating)%> - <%=link_to "Edit Rating", edit_rating_path(rating)%> <br>
         <%else%>
-            <%=link_to "Click to add Review", new_item_model_characteristic_rating_path(item_model_char)%><br>
+            <%rating = Rating.new%>
         <%end%>
+        <%=render partial: 'ratings/rating_form_simple', locals: {item_model_char: item_model_char, rating: rating}%>
+        
         <br>
     <%end%>
 <%end%>

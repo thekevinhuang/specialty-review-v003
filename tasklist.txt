@@ -16,3 +16,9 @@ Main Issues:
 3) then update the page with results
 
 Index should realistically obtain a list asynchronously. That way with new creations, the list should auto update.
+
+Probably should rewrite the imc list to be more ajax.
+
+Probably need to separate the rating functionality from the description of the rating.
+
+Should have the various calculated averages update more seamlessly.
