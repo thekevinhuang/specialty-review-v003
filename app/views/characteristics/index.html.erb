@@ -1,16 +1,16 @@
 <h2>List of Characteristics</h2>
 
-<div id="characteristic-list"></div>
-
-
 <div id="characteristic-form"> </div>
 
 <br>
-<br>
 <button id= "new-characteristic">Add a new Characteristic</button>
+<br>
+<br>
 
 <ul>
-    <%Characteristic.all.each do |characteristic|%>
-        <li><%= link_to characteristic.name, characteristic_path(characteristic)%> - <%=characteristic.description%></li>
-    <%end%>
+    <div id="characteristic-list">
+        <%Characteristic.all.each do |characteristic|%>
+            <li><%= link_to characteristic.name, characteristic_path(characteristic)%> - <%=characteristic.description%></li>
+        <%end%>
+    </div>
 </ul>

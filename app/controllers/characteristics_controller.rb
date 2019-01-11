@@ -11,11 +11,20 @@ class CharacteristicsController < ApplicationController
         @characteristic.description = characteristic_params[:description]
 
         if @characteristic.save
-            redirect_to characteristic_path(@characteristic)        
+            render json: @characteristic, status: 201       
         else
             render :new
         end
 
+    end
+
+    def index
+        @characteristics = Characteristic.all
+        
+        respond_to do |format|
+            format.html {:index}
+            format.json {render json: @characteristics}
+        end
     end
 
     def show
