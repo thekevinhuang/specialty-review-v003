@@ -1,10 +1,12 @@
-<h2><%=@characteristic.name%></h2>
+<h2 data-characteristic-id = "<%=@characteristic.id%>"><%=@characteristic.name%></h2>
 
 <h2>Items that have this Characteristic</h2>
 
 <ul>
-    <%@characteristic.item_models.each do |item_model|%>
-        <li><%= link_to item_model.name, item_model_path(item_model) %></li>
-    <%end%>
+    <div id= "item-model-list">
+        <%@characteristic.item_models.each do |item_model|%>
+            <li><%= link_to item_model.name, item_model_path(item_model) %></li>
+        <%end%>
+    </div>
 </ul>
 

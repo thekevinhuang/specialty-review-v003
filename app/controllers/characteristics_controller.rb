@@ -29,10 +29,11 @@ class CharacteristicsController < ApplicationController
 
     def show
         @characteristic = Characteristic.find_by(id: params[:id])
+        @item_models = @characteristic.item_models
 
         respond_to do |format|
             format.html {render :show}
-            format.json {render json:@characteristic}
+            format.json {render json:@item_models}
         end
     end
 

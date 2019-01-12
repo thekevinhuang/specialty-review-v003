@@ -1,3 +1,7 @@
+function characteristicId() {
+    return $('*[data-characteristic-id]').attr("data-characteristic-id")
+}
+
 class CharacteristicIndex {
     constructor () {
         this.className = "characteristic"
@@ -50,12 +54,37 @@ class CharacteristicIndex {
 
 }
 
+class CharacteristicShow {
+    constructor () {
+        this.id = characteristicId()
+    }
+
+    asyncItemModelList() {
+        var itemModelList = ""
+        var characteristicShow = this
+        $.get("/characteristics/"+characteristicShow.id+".json", function(data) {
+            data.forEach((element, index) => {
+                itemModelList += characteristicShow.itemModelLink(element)
+            })
+            $("#item-model-list").html(itemModelList)
+        })
+        
+    }
+    
+    itemModelLink(element) {
+        return `<li><a href="/item_models/${element.id}">${element.name}</a></li>`
+    }
+
+
+}
+
 $(document).on('turbolinks:load', function () {
     if  ($(".characteristics.index").length) {
-        let characteristicIndex = new CharacteristicIndex()
+        var characteristicIndex = new CharacteristicIndex()
         characteristicIndex.newCharacteristicFormShow()
-
+        characteristicIndex.asyncCharacteristicIndex()
     } else if ($(".characteristics.show").length){
-        
+        var characteristicShow = new CharacteristicShow()
+        characteristicShow.asyncItemModelList()
     }
 })
