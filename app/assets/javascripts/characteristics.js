@@ -1,5 +1,23 @@
+//General Helper functions for Characteristics
+
 function characteristicId() {
     return $('*[data-characteristic-id]').attr("data-characteristic-id")
+}
+
+function characteristicArray() {
+    var characteristicArray = []
+    $.ajax({
+        'async': false,
+        'url': "/characteristics.json",
+        'success': function (data){
+            var resultArray = []
+            data.forEach((element,index)=> {
+                resultArray.push({id:element.id, name:element.name})
+            })
+            characteristicArray = resultArray
+        }
+    })
+    return characteristicArray
 }
 
 class CharacteristicIndex {

@@ -10,7 +10,7 @@ class ItemCategoryIndex {
     constructor() {
         this.className = "item_category"
         this.parentClass = "activity"
-        this.parentArray = activityArray()
+        this.parentArray = activityArray() //borrowed from activities.js
         let itemCatIndexForm = new GenericForm({className:this.className,parentClass:this.parentClass,parentArray:this.parentArray})
         this.formHTML = itemCatIndexForm.newHTMLForm()
     }

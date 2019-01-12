@@ -1,3 +1,92 @@
+//general Item model Show functions
+
+function itemModelId() {
+    return $('*[data-item-model-id]').attr("data-item-model-id")
+}
+
+//Item Model Show class
+class ItemModelShow {
+    constructor () {
+        this.id = itemModelId()
+        this.characteristicArray = characteristicArray() //borrowed from characteristics.js
+        let imcHTMLForm = new IMCForm({parentId:this.id, parentArray:this.characteristicArray})
+        this.formHTML = imcHTMLForm.newHTMLForm()
+    }
+
+    characteristicFormShow() {
+        var itemModelShow = this
+        var item_model_id = itemModelShow.id
+        
+        $("#new-characteristic").on("click", function(e){
+            $("#characteristic-form").html(itemModelShow.formHTML)
+            $("#new-characteristic").hide()
+
+            itemModelShow.characteristicFormSubmit()
+        })
+    }
+
+    characteristicFormSubmit() {
+        var itemModelShow = this
+        $("form#new_item_model_characteristic").submit(function(event) {
+            event.preventDefault()
+        
+            var values =  $(this).serialize()
+        
+            var posting = $.post('/item_model_characteristics', values)
+        
+            posting.done(function (data){
+                $("#characteristic-form").empty()
+                $("#new-characteristic").show()
+                
+                itemModelShow.asyncCharacteristicList()
+            })
+        })
+    }
+
+    asyncCharacteristicList() {
+
+    }
+
+
+
+    characteristicList() {
+        var itemModelShow = this
+        $("#sort-review").on("click", function (e) {
+            itemModelShow.sortButton(this)
+        })
+        $("#sort-count").on("click", function(e) {
+            itemModelShow.sortButton(this)
+        })
+    }
+
+    singleCharacteristic(element) {
+
+    }
+
+    sortButton (button) {
+        var itemModelShow = this
+        $("#characteristic-list").empty()
+        var item_model_id = itemModelShow.id
+        var sort = $(button).data("sort")
+        var characteristicListHTML = ""
+        //need to make a request take the data and render some stuffs
+        $.get(`/item_models/${item_model_id}/item_model_characteristics/${sort}`, function(data) {
+            //loop through the results and create pages
+            data.forEach((element, index) => {
+                debugger
+                characteristicListHTML += itemModelShow.singleCharacteristic(element)
+            })
+            
+            //"<%=j(render partial: 'item_models/char_display', locals: {item_model_characteristics: @item_model_characteristics})%>"
+            
+            $("#characteristic-list").html(characteristicListHTML)
+            //refresh page datas
+            itemModelReset()
+        })
+    }
+}
+
+
 //functions associated with Item Model Index
 function itemModelRefresh() {
     $("#item-model-form").empty()
@@ -12,13 +101,11 @@ function itemModelRefresh() {
 }
 
 
-//function sassociated with Item Model Show
+//function associated with Item Model Show
 
-function itemModelId() {
-    return $('*[data-item-model-id]').attr("data-item-model-id")
-}
 
-function itemModelShowCharacteristicFormShow() {
+
+function itemModelShowCharacteristicFormShow() {//done
     var item_model_id = itemModelId()
     
     $("#new-characteristic").on("click", function(e){
@@ -30,7 +117,7 @@ function itemModelShowCharacteristicFormShow() {
     })
 } 
 
-function itemModelShowCharacteristicList() {
+function itemModelShowCharacteristicList() {//done
     $("#sort-review").on("click", function (e) {
         itemModelShowSortButton(this)
     })
@@ -44,7 +131,7 @@ function itemModelReset() {
     itemModelShowRatingUpdate()
 }
 
-function itemModelShowSortButton (button) {
+function itemModelShowSortButton (button) {//done
     $("#characteristic-list").empty()
     item_model_id = itemModelId()
     var sort = $(button).data("sort")
@@ -107,8 +194,9 @@ function itemModelShowRatingDescToggle(imc_id) {
 
 $(document).on('turbolinks:load', function () {
     if  ($(".item_models.show").length) {
-        itemModelShowCharacteristicList()
-        itemModelReset()
+        var itemModelShow = new ItemModelShow ()
+        itemModelShow.characteristicFormShow()
+        
     } else if ($(".item_categories.show").length){
         
     }

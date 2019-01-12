@@ -4,11 +4,11 @@
 
 <h3>Product Item Category/Activity:</h3>
 
-<h4>Activity: 
+<h4 data-activity-id = "<%=@item_model.item_category.activity.id%>">Activity: 
 <%=link_to @item_model.item_category.activity.name, activity_path(@item_model.item_category.activity)%>
 </h4>
 
-<h4>Item Category:
+<h4 data-item-category-id = "<%=@item_model.item_category.id%>">Item Category:
 <%=link_to @item_model.item_category.name, item_category_path(@item_model.item_category)%><br>
 </h4>
 
