@@ -4,15 +4,34 @@ function itemModelId() {
     return $('*[data-item-model-id]').attr("data-item-model-id")
 }
 
+function userId() {
+    return $('*[data-user-id]').attr("data-user-id")
+}
+//finish the userID form
+
 //Item Model Show class
 class ItemModelShow {
     constructor () {
         this.id = itemModelId()
+        this.userId = userId()
         this.characteristicArray = characteristicArray() //borrowed from characteristics.js
         let imcHTMLForm = new IMCForm({parentId:this.id, parentArray:this.characteristicArray})
         this.formHTML = imcHTMLForm.newHTMLForm()
     }
 
+    initializer() {
+        //clear out existing form
+        $("#characteristic-form").empty()
+        //show the new characteristic button
+        $("#new-characteristic").show()
+        
+        //load form click buttons
+        this.characteristicFormShow()
+        //load sorting buttons
+        this.characteristicListSortButton()
+        //initial characteristic sort
+        $("#sort-review").click()
+    }
     characteristicFormShow() {
         var itemModelShow = this
         var item_model_id = itemModelShow.id
@@ -35,10 +54,7 @@ class ItemModelShow {
             var posting = $.post('/item_model_characteristics', values)
         
             posting.done(function (data){
-                $("#characteristic-form").empty()
-                $("#new-characteristic").show()
-                
-                itemModelShow.asyncCharacteristicList()
+                itemModelShow.initializer()
             })
         })
     }
@@ -49,7 +65,7 @@ class ItemModelShow {
 
 
 
-    characteristicList() {
+    characteristicListSortButton() {
         var itemModelShow = this
         $("#sort-review").on("click", function (e) {
             itemModelShow.sortButton(this)
@@ -60,7 +76,53 @@ class ItemModelShow {
     }
 
     singleCharacteristic(element) {
+        var itemModelShow = this
+        var singleChar = `
+            <a href="/characteristics/${element.characteristic.id}">${element.characteristic.name}</a><br>
+            Total Number of Reviews: ${element.review_count} <br>
+            Average Review: ${element.average_rating} <br>
+            <a href="/item_model_characteristics/${element.id}">All reviews for this product's ${element.characteristic.name}</a><br>
+            ${itemModelShow.singleRating(element)}
+        `
+        return singleChar
+        //add a single characteristic html
+    }
 
+    singleRating(element) {
+        var itemModelShow = this
+        var rating_id_html = ""
+        if (element.rating === undefined || element.rating.length == 0) {
+            rating_id_html = `<div data-rating-id-${element.id} = "${element.ratings.id}"></div>`
+        }
+
+        var ratingHTML = `
+            <form class="rating-form-for-${element.id}" id="rating-form-for-${element.id}">
+                <input type="hidden" name="rating[item_model_characteristic_id]" id="rating_item_model_characteristic_id" value = "${element.id}">
+                ${rating_id_html}
+                <input type="hidden" name="rating[user_id]" id="rating_user_id" value="${itemModelShow.userID}">
+                <br>
+                <div id="rating-button-${element.id}" data-imc="${element.id}">
+                    ${itemModelShow.ratingButtons(element)}
+                </div>
+            </form>
+        `
+        return ratingHTML
+    }
+
+    ratingButtons (element) {
+        var item_buttons = ``
+        var i
+        for (i=1; i<6; i++) {
+            item_buttons +=`
+                <input type="radio" value="${i}" name="rating[rating]" id="rating_rating_${i}">
+                <label for="rating_rating_${i}">${i}</label>
+            `
+        }
+        $.get(`/item_model_characteristics/${element.id}/curr_user_rating`, function(data) {
+            var rating = data.rating
+            $(`#rating-form-for-${element.id} #rating_rating_${rating}`).prop("checked", true)
+        })
+        return item_buttons
     }
 
     sortButton (button) {
@@ -73,15 +135,14 @@ class ItemModelShow {
         $.get(`/item_models/${item_model_id}/item_model_characteristics/${sort}`, function(data) {
             //loop through the results and create pages
             data.forEach((element, index) => {
-                debugger
                 characteristicListHTML += itemModelShow.singleCharacteristic(element)
             })
             
             //"<%=j(render partial: 'item_models/char_display', locals: {item_model_characteristics: @item_model_characteristics})%>"
             
             $("#characteristic-list").html(characteristicListHTML)
-            //refresh page datas
-            itemModelReset()
+            
+            
         })
     }
 }
@@ -195,8 +256,8 @@ function itemModelShowRatingDescToggle(imc_id) {
 $(document).on('turbolinks:load', function () {
     if  ($(".item_models.show").length) {
         var itemModelShow = new ItemModelShow ()
-        itemModelShow.characteristicFormShow()
-        
+        itemModelShow.initializer()
+        //itemModelReset()
     } else if ($(".item_categories.show").length){
         
     }

@@ -22,6 +22,13 @@ class RatingsController <ApplicationController
         end
     end
 
+    def show_from_parents
+        @user = current_user
+        @imc = ItemModelCharacteristic.find_by(id: params[:imc_id])
+        @rating = Rating.from_parent(user: @user, item_model_characteristic: @imc)
+        render json: @rating
+    end
+
     def show
         
     end

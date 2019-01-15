@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/item_categories/:id/item_model_list' => 'item_models#listByRating'
   get '/item_models/:id/item_model_characteristics/new' => 'item_model_characteristics#new'
   get '/item_models/:id/item_model_characteristics/:sort' => 'item_model_characteristics#sorted_characteristic_list'
+  get '/item_model_characteristics/:imc_id/curr_user_rating' => 'ratings#show_from_parents'
 
   resources :activities do
     resources :item_categories, name_prefix: "activity_"

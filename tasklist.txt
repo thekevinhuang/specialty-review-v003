@@ -22,3 +22,5 @@ Probably should rewrite the imc list to be more ajax.
 Probably need to separate the rating functionality from the description of the rating.
 
 Should have the various calculated averages update more seamlessly.
+
+Need to finish up the char list

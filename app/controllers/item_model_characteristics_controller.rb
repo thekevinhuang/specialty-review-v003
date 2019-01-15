@@ -32,6 +32,7 @@ class ItemModelCharacteristicsController < ApplicationController
         sort = params[:sort]
         @item_model = ItemModel.find_by(id: params[:id])
         @item_model_characteristics = ItemModelCharacteristic.sort_by_param({item_model: @item_model, sort_type: params[:sort]})
+        render json: @item_model_characteristics, include: ['ratings', 'characteristic', 'item_model'], methods: [:average_rating, :review_count]
     end
 
     def create
