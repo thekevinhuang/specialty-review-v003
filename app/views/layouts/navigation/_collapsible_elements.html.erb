@@ -3,7 +3,7 @@
       <ul class="nav navbar-nav">
         <%if current_user%>
             <li class="dropdown pc-menu">
-                <a id="user-settings" class="dropdown-toggle" data-toggle="dropdown" data-user-id="current_user.id" href="#">
+                <a id="user-settings" class="dropdown-toggle" data-toggle="dropdown" data-user-id="<%=current_user.id%>" href="#">
                     <span id="user-name"><%= current_user.name %></span>
                     <span class="caret"></span>
                 </a>

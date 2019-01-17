@@ -59,12 +59,6 @@ class ItemModelShow {
         })
     }
 
-    asyncCharacteristicList() {
-
-    }
-
-
-
     characteristicListSortButton() {
         var itemModelShow = this
         $("#sort-review").on("click", function (e) {
@@ -91,21 +85,36 @@ class ItemModelShow {
     singleRating(element) {
         var itemModelShow = this
         var rating_id_html = ""
-        if (element.rating === undefined || element.rating.length == 0) {
-            rating_id_html = `<div data-rating-id-${element.id} = "${element.ratings.id}"></div>`
-        }
+        var rating_desc_html = ""
 
+        if (element.ratings.length > 0) {
+            rating_id_html = `<div data-rating-id-${element.id} = "${element.ratings[0].id}"></div>`
+            rating_desc_html = `${element.ratings[0].description}`
+        }
+        
         var ratingHTML = `
             <form class="rating-form-for-${element.id}" id="rating-form-for-${element.id}">
                 <input type="hidden" name="rating[item_model_characteristic_id]" id="rating_item_model_characteristic_id" value = "${element.id}">
                 ${rating_id_html}
-                <input type="hidden" name="rating[user_id]" id="rating_user_id" value="${itemModelShow.userID}">
+                <input type="hidden" name="rating[user_id]" id="rating_user_id" value="${userId()}">
                 <br>
                 <div id="rating-button-${element.id}" data-imc="${element.id}">
                     ${itemModelShow.ratingButtons(element)}
                 </div>
+                <br>
+                <div id="rating-description-${element.id}" hidden>
+                    <label for="rating_description">Description</label>
+                    <br>
+                    <textarea name="rating[description]" id="rating_description">${rating_desc_html}</textarea>
+                    <br>
+                    <input type="submit" name="commit" value="Submit Rating" class: "btn btn-outline-dark"%>
+                    <br>
+                </div>
             </form>
+
+            <br>
         `
+        
         return ratingHTML
     }
 
@@ -138,12 +147,62 @@ class ItemModelShow {
                 characteristicListHTML += itemModelShow.singleCharacteristic(element)
             })
             
-            //"<%=j(render partial: 'item_models/char_display', locals: {item_model_characteristics: @item_model_characteristics})%>"
-            
             $("#characteristic-list").html(characteristicListHTML)
-            
-            
+
+            itemModelShow.ratingUpdate()
         })
+    }
+
+    ratingUpdate() {
+        //adds the on click to all of the radio rating buttons
+        var itemModelShow = this
+        $("[id^='rating-button']").each((index, element) => {
+            
+            var imc_id = $(element).data("imc")
+            
+            $(element).on("click", function () {
+                itemModelShow.ratingDescToggle(imc_id)
+            })
+
+            itemModelShow.ratingFormSubmit(imc_id)    
+        })
+    }
+    
+    ratingFormSubmit(imc_id) {
+        var rating_form = $('#rating-form-for-'+imc_id)
+        var itemModelShow = this
+        rating_form.submit(function(event) {
+            event.preventDefault()
+        
+            var values =  $(this).serialize()
+            var rating_id = itemModelShow.ratingId(imc_id)
+            
+            if (rating_id) {
+                var posting = $.ajax('/ratings/'+rating_id,{
+                    type: 'PATCH',
+                    data: values
+                })
+            } else {
+                var posting = $.post('/ratings', values)
+            }
+        
+            posting.done(function (data){
+                $("#sort-review").click()
+            })
+        })
+    }
+    
+    ratingId(imc_id) {
+        return $('*[data-rating-id-'+imc_id+']').attr("data-rating-id-"+imc_id)
+    }
+    
+    ratingDescToggle(imc_id) {
+        if ($('#rating-description-'+imc_id).is(":hidden")) {
+            $('#rating-description-'+imc_id).attr("hidden", false)
+        } else {
+            $('#rating-description-'+imc_id).attr("hidden", true)
+        }
+        
     }
 }
 

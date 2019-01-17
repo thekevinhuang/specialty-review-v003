@@ -34,7 +34,7 @@ class RatingsController <ApplicationController
     end
 
     def edit
-        @item_model_characteristic = @rating.item_model_characteristic     
+        @item_model_characteristic = @rating.item_model_characteristic
     end
 
     def update
