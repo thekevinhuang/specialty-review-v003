@@ -49,7 +49,9 @@ class GenericForm {
         } else if (parentClass != "NothingClass") {
             parentHTML = `
                 <h4>Select a ${readableClassName(parentClass)}:</h4>
+                <br>
                 <select name="parent[parent_id]" id="parent_parent_id">
+                <br>
                 ${this.parentSelectOptions(parentArray)}
                 </select>
                 <br>
@@ -105,6 +107,7 @@ class IMCForm extends GenericForm {
 
         parentHTML += `
         <label for="${className}_${parentClass}_id">Select a ${readableClassName(parentClass)}</label>
+        <br>
         <select name="${className}[${parentClass}_id]" id="${className}_${parentClass}_id">
         ${this.parentSelectOptions(parentArray)}
         </select>
