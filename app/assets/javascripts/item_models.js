@@ -188,12 +188,21 @@ class ItemModelShow {
         
             posting.done(function (data){
                 $("#sort-review").click()
+                itemModelShow.overallRatingUpdate()
             })
         })
     }
     
     ratingId(imc_id) {
         return $('*[data-rating-id-'+imc_id+']').attr("data-rating-id-"+imc_id)
+    }
+
+    overallRatingUpdate() {
+        var itemModelShow = this
+        $.get(`/item_models/${itemModelShow.id}.json`, function(data) {
+            $("#item-model-overall-rating").html(`<h4>Product Overall Rating: ${data.overall_rating}</h4>`)
+        })
+        
     }
     
     ratingDescToggle(imc_id) {
