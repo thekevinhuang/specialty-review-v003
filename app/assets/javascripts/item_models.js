@@ -29,6 +29,8 @@ class ItemModelShow {
         this.characteristicFormShow()
         //load sorting buttons
         this.characteristicListSortButton()
+        // clears errors
+        $('#characteristic-form-error').html("")
         //initial characteristic sort
         $("#sort-review").click()
     }
@@ -55,7 +57,12 @@ class ItemModelShow {
             var posting = $.post('/item_model_characteristics', values)
         
             posting.done(function (data){
-                itemModelShow.initializer()
+                if (data) {
+                    itemModelShow.initializer()
+                } else {
+                    itemModelShow.initializer()
+                    $('#characteristic-form-error').html(`There were some errors with your submission <br>`)
+                }
             })
         })
     }
