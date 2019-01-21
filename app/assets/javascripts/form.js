@@ -22,7 +22,7 @@ class GenericForm {
     }
 
     parentSelectOptions(parentArray = []){
-        let parentOptions = ``
+        let parentOptions = `<option value="" selected>Choose here</option>`
         var form = this
         parentArray.forEach((element,index) => {
             parentOptions += form.selectOptionCreate(element)

@@ -40,21 +40,24 @@ class ItemModelCharacteristicsController < ApplicationController
         if @item_model
             if !params["item_model_characteristic"]["characteristic_id"].empty?
                 @characteristic = Characteristic.find_by(id: params["item_model_characteristic"]["characteristic_id"])
+                if !@item_model.characteristics.include?(@characteristic)
+                    @imchar = ItemModelCharacteristic.new(item_model_id: @item_model.id, characteristic_id: @characteristic.id)
+                    @imchar.save 
+                end
             else
                 @characteristic = Characteristic.find_or_initialize_by(name: params["characteristic"]["name"])
                 if !@characteristic.id?
                     @characteristic.description = params["characteristic"]["description"]
+                    @characteristic.save
+                end
+                if !@item_model.characteristics.include?(@characteristic)
+                    @imchar = ItemModelCharacteristic.new(item_model_id: @item_model.id, characteristic_id: @characteristic.id)
+                    @imchar.save 
                 end
             end
 
-            if @characteristic.save
-                imchar = ItemModelCharacteristic.new(item_model_id: @item_model.id, characteristic_id: @characteristic.id)
-                imchar.save
-                redirect_to item_model_path(@item_model)
-
-            else
-                redirect_to item_model_path(@item_model)
-            end
+            render json: @imchar, status: 201
+            
         else
             redirect_to root_path
         end
