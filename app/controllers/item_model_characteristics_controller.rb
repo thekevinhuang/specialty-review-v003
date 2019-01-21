@@ -5,7 +5,7 @@ class ItemModelCharacteristicsController < ApplicationController
         @item_model_characteristic = ItemModelCharacteristic.find_by(id: params[:id])
         respond_to do |format|
             format.html {render :show}
-            format.json {render json: @item_model_characteristic, include: 'ratings'}
+            format.json {render json: @item_model_characteristic, include: ['ratings', 'ratings.user']}
         end
     end
     
