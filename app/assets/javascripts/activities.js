@@ -52,6 +52,7 @@ class ActivityShow {
         })
     }
 
+
     asyncItemCategoryList () {
         let htmlItemCategoryList = ""
         var activityShow = this
@@ -97,6 +98,24 @@ class ActivityIndex {
         })
     }
 
+    alphaSort () {
+        let htmlActivityList = ""
+        var activityIndex = this
+        $("#alpha-sort").on("click", function(e){
+            htmlActivityList = ""
+            $.get("/activities.json", function (data) {
+                data.sort(function(a,b){
+                    var x = a.name.toLowerCase()
+                    var y = b.name.toLowerCase()
+                    if(x<y) {return -1}
+                    if (y>x) {return 1}
+                    return 0
+                }).forEach((element, index) => {htmlActivityList += activityIndex.activityLink(element)})
+                $("#activity-list").html(htmlActivityList)
+            })
+        })
+    }
+
     activityLink(element) {
         return '<li><a href = "activities/' + element.id + '">' + element.name + '</a></li>'
     }
@@ -135,6 +154,7 @@ $(document).on('turbolinks:load', function () {
     if  ($(".activities.index").length) {
         let activityIndex = new ActivityIndex()
         activityIndex.newActivityFormShow()
+        activityIndex.alphaSort()
 
     } else if ($(".activities.show").length){
         let activityShow = new ActivityShow()
