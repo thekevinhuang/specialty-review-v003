@@ -110,7 +110,8 @@ class ActivityIndex {
                     if(x<y) {return -1}
                     if (y>x) {return 1}
                     return 0
-                }).forEach((element, index) => {htmlActivityList += activityIndex.activityLink(element)})
+                })
+                data.forEach((element, index) => {htmlActivityList += activityIndex.activityLink(element)})
                 $("#activity-list").html(htmlActivityList)
             })
         })
